@@ -105,6 +105,37 @@ public class Graph {
   public int findRoot() {
 
     // ADD YOUR CODE HERE - DO NOT FORGET TO ADD YOUR NAME/SECTION AT TOP OF FILE
-    return -1;
+
+
+
+    int[] inDegree = new int[numVertices]; // initialize in degree array
+
+    // calcualte in degrees
+    for (int src = 0; src < numVertices; src++) {
+      for (Integer dest : adjListArr[src]) {
+        inDegree[dest]++;
+      }
+    }
+
+    // id vertices with 0 in degree
+    int rootVertex = -1;
+    for (int i = 0; i < numVertices; i++) {
+      if (inDegree[i] == 0) {
+        if (rootVertex == -1) {
+          rootVertex = i; // found a potential root
+        } else {
+          // more than one vertex with zero in-degree
+          return -1;
+        }
+      }
+    }
+
+    // return the root vertex's value or -1
+    if (rootVertex != -1) {
+      return vertexValues.get(rootVertex);
+    } else {
+      // no vertex with zero in-degree
+      return -1;
+    }
   } 
 }

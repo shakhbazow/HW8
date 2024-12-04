@@ -82,8 +82,40 @@ class ProblemSolutions {
                                         prerequisites); 
 
         // ADD YOUR CODE HERE - ADD YOUR NAME / SECTION AT TOP OF FILE
-        return false;
+        // States: 0 = unvisited, -1 = visiting, 1 = visited
+        int[] states = new int[numNodes];
 
+        // Check each node for cycles
+        for (int i = 0; i < numNodes; i++) {
+            if (states[i] == 0) {
+                if (isCyclic(i, adj, states)) {
+                    return false; // Cycle detected
+                }
+            }
+        }
+        return true; // No cycles detected
+       // return false;
+
+    }
+
+    private boolean isCyclic(int currentNode, ArrayList<Integer>[] adj, int[] states) {
+        states[currentNode] = -1; // Mark as visiting
+
+        // Explore neighbors
+        for (int neighbor : adj[currentNode]) {
+            if (states[neighbor] == -1) {
+                // Cycle detected
+                return true;
+            } else if (states[neighbor] == 0) {
+                // Continue DFS
+                if (isCyclic(neighbor, adj, states)) {
+                    return true;
+                }
+            }
+        }
+
+        states[currentNode] = 1; // Mark as visited
+        return false;
     }
 
 
@@ -192,7 +224,31 @@ class ProblemSolutions {
 
         // YOUR CODE GOES HERE - you can add helper methods, you do not need
         // to put all code in this method.
-        return -1;
+
+        boolean[] visited = new boolean[numNodes];  // tracks visited nodes
+        int groupCount = 0;  // counts the number of groups
+
+        // iterate over all nodes
+        for (int node = 0; node < numNodes; node++) {
+            if (!visited[node]) {
+                dfs(node, graph, visited);  // perform DFS from unvisited node
+                groupCount++;  // increment group count after each DFS
+            }
+        }
+
+        return groupCount;  // return the total number of groups
+
+    }
+
+    private void dfs(int node, Map<Integer, List<Integer>> graph, boolean[] visited) {
+        visited[node] = true;  // mark current node as visited
+        if (graph.containsKey(node)) {
+            for (int neighbor : graph.get(node)) {
+                if (!visited[neighbor]) {
+                    dfs(neighbor, graph, visited);  // recursively visit neighbors
+                }
+            }
+        }
     }
 
 }
