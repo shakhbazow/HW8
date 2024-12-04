@@ -1,6 +1,6 @@
 /******************************************************************
  *
- *   ADD YOUR NAME / SECTION NUMBER HERE
+ *   Emil Shahbazov / 272-01
  *
  *   This java file contains the problem solutions of canFinish and
  *   numGroups methods.
